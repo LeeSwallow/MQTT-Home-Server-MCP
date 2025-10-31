@@ -16,11 +16,12 @@ def send_register_response(device_code: str, request: MqttRegisterResponse):
     )
     logger.info(f"등록 응답 이벤트 발행: {request}")
 
+
 def send_actuator_action(device_code: str, actuator_id: int, state: int):
     db = SessionLocal()
     try:
         actuator = actuator_dao.get_actuator_by_id(db, actuator_id)
-        request = MqttUpdateActuatorStateRequest(id=actuator_id, name=str(actuator.name), state=state)
+        request = MqttUpdateActuatorStateRequest(name=str(actuator.name), state=state)
         mqttClient.publish(
             f"devices/{device_code}/action",
             json.dumps(request.model_dump()),

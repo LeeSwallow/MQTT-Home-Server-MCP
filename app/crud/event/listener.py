@@ -17,30 +17,34 @@ def _extract_device_code(topic: str) -> str:
     else:
         raise ValueError(f"잘못된 토픽 형식: {topic}")
 
+
 def on_register(client, userdata, message):
     session = SessionLocal()
     try:
-        payload = json.loads(message.payload.decode('utf-8'))
-        register_type = RegisterType(payload['register_type'])
         device_code = _extract_device_code(message.topic)
-        
+
+        payload = json.loads(message.payload.decode('utf-8'))
+        register_type = RegisterType(payload['type'])
+
         if register_type == RegisterType.SENSOR:
             request = MqttRegisterSensorMessage.model_validate(payload)
-            sensor = sensor_dao.register_if_not_exists(session, device_code, request.name, request.sensor_type)
-            response = MqttRegisterResponse(register_type=RegisterType.SENSOR, id=sensor.id, name=sensor.name) # type: ignore
+            sensor = sensor_dao.register_if_not_exists(session, device_code, request) 
+            response = MqttRegisterResponse(type=RegisterType.SENSOR, name=sensor.name) # type: ignore
 
         elif register_type == RegisterType.ACTUATOR:
             request = MqttRegisterActuatorMessage.model_validate(payload)
-            actuator = actuator_dao.register_if_not_exists(session, device_code, request.name, request.level)
-            response = MqttRegisterResponse(register_type=RegisterType.ACTUATOR, id=actuator.id, name=actuator.name) # type: ignore
+            actuator = actuator_dao.register_if_not_exists(session, device_code, request)
+            response = MqttRegisterResponse(type=RegisterType.ACTUATOR, name=actuator.name) # type: ignore
         
         else:
             raise ValueError(f"잘못된 등록 타입: {register_type}")
-    
+        
+        logger.info(f"등록 완료: {response}")
         send_register_response(device_code, response)
     
     except Exception as e:
         logger.error(f"등록 처리 실패: {e}")
+        session.rollback()
     finally:
         session.close()
 
@@ -48,19 +52,20 @@ def on_register(client, userdata, message):
 def on_update(client, userdata, message):
     session = SessionLocal()
     try:
+        device_code = _extract_device_code(message.topic)
         payload = json.loads(message.payload.decode('utf-8'))
-        register_type = RegisterType(payload['register_type'])
+        update_type = RegisterType(payload['type'])
         
-        if register_type == RegisterType.SENSOR:
+        if update_type == RegisterType.SENSOR:
             request = MqttUpdateSensorStateMessage.model_validate(payload)
-            sensor_dao.update_state(session, request.id, request.state)
+            sensor_dao.update_state(session, device_code, request)
         
-        elif register_type == RegisterType.ACTUATOR:
+        elif update_type == RegisterType.ACTUATOR:
             request = MqttUpdateActuatorStateMessage.model_validate(payload)
-            actuator_dao.update_state(session, request.id, request.state)
+            actuator_dao.update_state(session, device_code, request)
         
         else:
-            raise ValueError(f"잘못된 업데이트 타입: {register_type}")
+            raise ValueError(f"잘못된 업데이트 타입: {update_type}")
         
         logger.info(f"업데이트 완료: {request}")
     
