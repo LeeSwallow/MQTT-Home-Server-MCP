@@ -9,17 +9,17 @@ router = APIRouter(
     tags=["devices"]
 )
 
-@router.get("/{device_code}")
-def get_device_by_code(device_code: str, session: SessionDep) -> RestDeviceResponse:
-    return crud.get_device_by_code(session, device_code)
-
 @router.get("/")
 def get_devices(session: SessionDep) -> list[RestDeviceResponse]:
     return crud.get_devices(session)
 
 @router.get("/pagination")
-def get_pagination_devices(session: SessionDep, page: int = 1, size: int = 10) -> PageResponse[RestDeviceResponse]:
+def get_pagination_devices(session: SessionDep, page: int = 0, size: int = 10) -> PageResponse[RestDeviceResponse]:
     return crud.get_pagination_devices(session, page, size)
+
+@router.get("/{device_code}")
+def get_device_by_code(device_code: str, session: SessionDep) -> RestDeviceResponse:
+    return crud.get_device_by_code(session, device_code)
 
 @router.put("/{device_code}")
 def update_device(device_code:str, request: DefaultEdit, session: SessionDep) -> RestDeviceResponse:

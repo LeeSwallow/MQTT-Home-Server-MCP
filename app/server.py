@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from contextlib import asynccontextmanager
 from app.router import device, actuator, sensor
 from app.util.database import init_db
@@ -6,6 +8,7 @@ import paho.mqtt.client as mqtt
 from app.util.logging import logging
 from app.util.broker import mqttClient
 from app.crud.event.listener import on_register, on_update
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -52,3 +55,12 @@ app = FastAPI(
 app.include_router(device.router)
 app.include_router(actuator.router)
 app.include_router(sensor.router)
+
+# Static files
+STATIC_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
+if os.path.exists(STATIC_DIR):
+    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+    
+    @app.get("/")
+    async def read_root():
+        return FileResponse(os.path.join(STATIC_DIR, "index.html"))

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스마트 홈 컨트롤러</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>🏠 스마트 홈 컨트롤러</h1>
+                <button class="btn btn-primary back-btn" id="back-btn" style="display: none;" onclick="goToDeviceList()">
+                    ← 기기 목록으로
+                </button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Device List Page -->
+            <div class="device-list-page" id="device-list-page">
+                <div class="page-header">
+                    <h2>📱 등록된 기기 목록</h2>
+                    <div class="page-info">
+                        <span id="page-info-text">페이지 로딩 중...</span>
+                    </div>
+                </div>
+                <div class="cards-grid" id="device-list-grid">
+                    <div class="empty-state">
+                        <p>기기를 불러오는 중...</p>
+                    </div>
+                </div>
+                <div class="pagination" id="device-pagination">
+                    <!-- Pagination will be inserted here -->
+                </div>
+            </div>
+
+            <div class="dashboard" id="dashboard" style="display: none;">
+                <section class="section device-info-section">
+                    <div class="section-header">
+                        <h2>📱 기기 정보</h2>
+                        <button class="edit-btn" onclick="openEditModal('device', null)" title="편집">
+                            ✏️ 편집
+                        </button>
+                    </div>
+                    <div class="device-info-content">
+                        <div class="info-item">
+                            <span class="info-label">이름:</span>
+                            <span class="info-value" id="device-name">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">코드:</span>
+                            <span class="info-value" id="device-code">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">설명:</span>
+                            <span class="info-value" id="device-description">-</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="section-header">
+                        <h2>⚡ 액추에이터</h2>
+                        <span class="badge" id="actuator-count">0</span>
+                    </div>
+                    <div class="cards-grid" id="actuators-grid">
+                        <div class="empty-state">
+                            <p>액추에이터가 없습니다</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="section-header">
+                        <h2>📊 센서</h2>
+                        <span class="badge" id="sensor-count">0</span>
+                    </div>
+                    <div class="cards-grid" id="sensors-grid">
+                        <div class="empty-state">
+                            <p>센서가 없습니다</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <!-- Edit Modal -->
+    <div class="modal" id="edit-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">정보 수정</h3>
+                <button class="modal-close" onclick="closeEditModal()">×</button>
+            </div>
+            <form id="edit-form" onsubmit="handleEditSubmit(event)">
+                <div class="form-group">
+                    <label for="edit-name">이름</label>
+                    <input type="text" id="edit-name" name="name" placeholder="이름을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="edit-description">설명</label>
+                    <textarea id="edit-description" name="description" rows="3" placeholder="설명을 입력하세요"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">취소</button>
+                    <button type="submit" class="btn btn-primary">저장</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
+
