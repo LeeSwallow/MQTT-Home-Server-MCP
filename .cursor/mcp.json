@@ -1,0 +1,8 @@
+{
+    "mcpServers": {
+      "smart-home-mcp": {
+        "command": "uv",
+        "args": ["run", "start_mcp.py"]
+    }
+  }
+}

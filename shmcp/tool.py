@@ -26,12 +26,28 @@ async def list_actuators() -> list[dict]:
     return [ActuatorResponse.model_validate(item).model_dump() for item in data]
 
 @mcpServer.tool(
+    name="get_actuator",
+    description="액추에이터 정보를 조회합니다.",
+)
+async def get_actuator(actuator_id: int) -> dict:
+    data = await api_get_actuator(actuator_id=actuator_id)
+    return ActuatorResponse.model_validate(data).model_dump()
+
+@mcpServer.tool(
     name="list_sensors",
     description="센서 목록을 조회합니다.",
 )
 async def list_sensors() -> list[dict]:
     data = await api_get_sensors()
     return [SensorResponse.model_validate(item).model_dump() for item in data]
+
+@mcpServer.tool(
+    name="get_sensor",
+    description="센서 정보를 조회합니다.",
+)
+async def get_sensor(sensor_id: int) -> dict:
+    data = await api_get_sensor(sensor_id=sensor_id)
+    return SensorResponse.model_validate(data).model_dump()
 
 @mcpServer.tool(
     name="set_actuator_state",
