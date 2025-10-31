@@ -5,7 +5,9 @@ from shmcp.schema import DeviceResponse, ActuatorResponse, SensorResponse
 from shmcp.util.client import (
     get_device_info as api_get_device_info,
     api_get_actuators,
+    api_get_actuator,
     api_get_sensors,
+    api_get_sensor,
     api_update_actuator_state,
 )
 

@@ -1,9 +1,7 @@
-from dotenv import load_dotenv
 from shmcp.server import mcpServer
 
-load_dotenv(dotenv_path=".env.mcp")
-
 def main():
+    # 환경 변수는 mcp.json에서 전달됨
     mcpServer.run()
 
 if __name__ == "__main__":

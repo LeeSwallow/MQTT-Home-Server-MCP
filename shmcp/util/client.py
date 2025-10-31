@@ -1,18 +1,17 @@
 import os
 import httpx
-from dotenv import load_dotenv
 from shmcp.schema import DeviceResponse
 
-load_dotenv(dotenv_path=".env.mcp")
-
+# mcp.json의 env 설정에서 환경 변수를 가져옴
 DEVICE_ID = os.getenv("DEVICE_ID")
 SERVER_URL = os.getenv("SERVER_URL")
+
 if not DEVICE_ID:
     raise ValueError("DEVICE_ID 환경 변수가 설정되지 않았습니다.")
 if not SERVER_URL:
     raise ValueError("SERVER_URL 환경 변수가 설정되지 않았습니다.")
 
-_client = httpx.AsyncClient(base_url=SERVER_URL, timeout=10.0)
+_client = httpx.AsyncClient(base_url=SERVER_URL, timeout=10.0, follow_redirects=True)
 
 async def get_device_info(device_code: str | None = None) -> DeviceResponse:
     code = device_code or DEVICE_ID
@@ -37,13 +36,13 @@ async def put_request(path: str, data: dict) -> dict:
 
 # Convenience API wrappers
 async def api_get_actuators() -> list[dict]:
-    return await get_request(f"/api/v1/devices/{DEVICE_ID}/actuators")
+    return await get_request(f"/api/v1/devices/{DEVICE_ID}/actuators/")
 
 async def api_get_actuator(actuator_id: int) -> dict:
     return await get_request(f"/api/v1/devices/{DEVICE_ID}/actuators/{actuator_id}")
 
 async def api_get_sensors() -> list[dict]:
-    return await get_request(f"/api/v1/devices/{DEVICE_ID}/sensors")
+    return await get_request(f"/api/v1/devices/{DEVICE_ID}/sensors/")
 
 async def api_get_sensor(sensor_id: int) -> dict:
     return await get_request(f"/api/v1/devices/{DEVICE_ID}/sensors/{sensor_id}")

@@ -2,7 +2,11 @@
     "mcpServers": {
       "smart-home-mcp": {
         "command": "uv",
-        "args": ["run", "start_mcp.py"]
+        "args": ["run", "start_mcp.py"],
+        "env": {
+          "DEVICE_ID": "HS-0000-0000-0001",
+          "SERVER_URL": "http://localhost:8000"
+        }
     }
   }
 }

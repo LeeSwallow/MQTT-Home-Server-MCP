@@ -20,10 +20,21 @@ def get_actuators(db: Session, device_code: str) -> list[RestActuatorResponse]:
     actuators = actuator_dao.get_all_by_device_code(db, device_code)
     return [RestActuatorResponse.model_validate(actuator) for actuator in actuators]
 
+def get_actuator(db: Session, device_code: str, actuator_id: int) -> RestActuatorResponse:
+    if not actuator_dao.exists_by_device_code_and_id(db, device_code, actuator_id):
+        raise HTTPException(status_code=404, detail="해당 액추에이터를 찾을 수 없습니다.")
+    actuator = actuator_dao.get_actuator_by_id(db, actuator_id)
+    return RestActuatorResponse.model_validate(actuator)
+
 def get_sensors(db: Session, device_code: str) -> list[RestSensorResponse]:
     sensors = sensor_dao.get_all_by_device_code(db, device_code)
     return [RestSensorResponse.model_validate(sensor) for sensor in sensors]
 
+def get_sensor(db: Session, device_code: str, sensor_id: int) -> RestSensorResponse:
+    if not sensor_dao.exists_by_device_code_and_id(db, device_code, sensor_id):
+        raise HTTPException(status_code=404, detail="해당 센서를 찾을 수 없습니다.")
+    sensor = sensor_dao.get_sensor_by_id(db, sensor_id)
+    return RestSensorResponse.model_validate(sensor)
 
 def get_pagination_devices(db: Session, page: int, size: int) -> PageResponse[RestDeviceResponse]:
     devices = device_dao.get_pagination(db, page, size)
