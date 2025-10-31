@@ -8,6 +8,7 @@ dependencies = [
     "dotenv>=0.9.9",
     "fastapi>=0.120.0",
     "fastmcp>=2.13.0.2",
+    "httpx>=0.28.1",
     "paho-mqtt>=2.1.0",
     "python-dotenv>=1.2.1",
     "sqlalchemy>=2.0.44",
