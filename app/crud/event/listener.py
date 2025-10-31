@@ -6,7 +6,7 @@ import app.crud.dao.actuator as actuator_dao
 from app.util.logging import logging
 from app.model.enums import RegisterType
 from app.util.database import SessionLocal
-from app.schema.mqtt import *
+from app.schema.mqtt import MqttRegisterSensorMessage, MqttRegisterActuatorMessage, MqttUpdateSensorStateMessage, MqttUpdateActuatorStateMessage, MqttRegisterResponse 
 from app.crud.event.publisher import send_register_response
 
 logger = logging.getLogger(__name__)

@@ -10,7 +10,11 @@ router = APIRouter(
 )
 
 @router.get("/")
-def get_sensors(device_code: str,session: SessionDep, page=1, size=10) -> PageResponse[RestSensorResponse]:
+def get_sensors(device_code: str, session: SessionDep) -> list[RestSensorResponse]:
+    return crud.get_sensors(session, device_code)
+
+@router.get("/pagination")
+def get_pagination_sensors(device_code: str, session: SessionDep, page: int = 1, size: int = 10) -> PageResponse[RestSensorResponse]:
     return crud.get_pagination_sensors(session, device_code, page, size)
 
 @router.put("/{sensor_id}")

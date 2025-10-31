@@ -20,9 +20,12 @@ def get_device_by_code(db: Session, device_code: str) -> IoTDevice:
         raise HTTPException(status_code=404, detail="해당 기기를 찾을 수 없습니다.")
     return device
 
+def get_all(db: Session) -> list[IoTDevice]:
+    return db.query(IoTDevice).all()
+
 def get_pagination(db: Session, page: int, size: int) -> PageResponse[IoTDevice]:
     total_items = db.query(IoTDevice).count()
-    total_pages = (total_items + size - 1) // size
+    total_pages = (int(total_items) + size - 1) // size
     devices = db.query(IoTDevice).offset((page - 1) * size).limit(size).all()
     
     return PageResponse(

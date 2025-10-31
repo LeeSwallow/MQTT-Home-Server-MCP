@@ -45,6 +45,9 @@ def exists_by_device_code_and_id(db: Session, device_code: str, sensor_id: int) 
         IoTSensor.device_code == device_code,
         IoTSensor.id == sensor_id
     ).first() is not None
+    
+def get_all_by_device_code(db: Session, device_code: str) -> list[IoTSensor]:
+    return db.query(IoTSensor).filter(IoTSensor.device_code == device_code).all()
 
 def get_pagination(db: Session, device_code: str, page: int, size: int) -> PageResponse[IoTSensor]:
     total_items = db.query(IoTSensor).filter(IoTSensor.device_code == device_code).count()

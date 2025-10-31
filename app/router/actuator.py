@@ -11,7 +11,11 @@ router = APIRouter(
 )
 
 @router.get("/")
-def get_actuator_page(device_code: str, session: SessionDep, page=1, size=10) -> PageResponse[RestActuatorResponse]:
+def get_actuators(device_code: str, session: SessionDep) -> list[RestActuatorResponse]:
+    return crud.get_actuators(session, device_code)
+
+@router.get("/pagination")
+def get_pagination_actuators(device_code: str, session: SessionDep, page: int = 1, size: int = 10) -> PageResponse[RestActuatorResponse]:
     return crud.get_pagination_actuators(session, device_code, page, size)
 
 @router.put("/{actuator_id}")

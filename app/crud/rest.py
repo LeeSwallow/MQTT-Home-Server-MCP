@@ -11,6 +11,18 @@ def get_device_by_code(db: Session, device_code: str) -> RestDeviceResponse:
     device = device_dao.get_device_by_code(db, device_code)
     return RestDeviceResponse.model_validate(device)
 
+def get_devices(db: Session) -> list[RestDeviceResponse]:
+    devices = device_dao.get_all(db)
+    return [RestDeviceResponse.model_validate(device) for device in devices]
+
+def get_actuators(db: Session, device_code: str) -> list[RestActuatorResponse]:
+    actuators = actuator_dao.get_all_by_device_code(db, device_code)
+    return [RestActuatorResponse.model_validate(actuator) for actuator in actuators]
+
+def get_sensors(db: Session, device_code: str) -> list[RestSensorResponse]:
+    sensors = sensor_dao.get_all_by_device_code(db, device_code)
+    return [RestSensorResponse.model_validate(sensor) for sensor in sensors]
+
 
 def get_pagination_devices(db: Session, page: int, size: int) -> PageResponse[RestDeviceResponse]:
     devices = device_dao.get_pagination(db, page, size)

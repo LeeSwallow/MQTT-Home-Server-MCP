@@ -41,6 +41,9 @@ def get_by_device_code_and_name(db: Session, device_code: str, name: str) -> IoT
     return actuator
 
 
+def get_all_by_device_code(db: Session, device_code: str) -> list[IoTActuator]:
+    return db.query(IoTActuator).filter(IoTActuator.device_code == device_code).all()
+
 def get_pagination(db: Session, device_code: str, page: int, size: int) -> PageResponse[IoTActuator]:
     total_items = db.query(IoTActuator).filter(IoTActuator.device_code == device_code).count()
     total_pages = (total_items + size - 1) // size

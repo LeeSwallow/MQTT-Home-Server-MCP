@@ -14,7 +14,11 @@ def get_device_by_code(device_code: str, session: SessionDep) -> RestDeviceRespo
     return crud.get_device_by_code(session, device_code)
 
 @router.get("/")
-def get_pagination_devices(session: SessionDep, page=1, size=10) -> PageResponse[RestDeviceResponse]:
+def get_devices(session: SessionDep) -> list[RestDeviceResponse]:
+    return crud.get_devices(session)
+
+@router.get("/pagination")
+def get_pagination_devices(session: SessionDep, page: int = 1, size: int = 10) -> PageResponse[RestDeviceResponse]:
     return crud.get_pagination_devices(session, page, size)
 
 @router.put("/{device_code}")
