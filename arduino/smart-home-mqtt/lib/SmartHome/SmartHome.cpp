@@ -17,6 +17,7 @@ String Actuator::getRegisterMessage() {
 
 String Actuator::getStateMessage() {
     String msg = "{";
+    msg += "\"type\":\"actuator\",";
     msg += "\"name\":\"" + name + "\",";
     msg += "\"state\":" + String(state);
     msg += "}";
@@ -39,6 +40,7 @@ String Sensor::getRegisterMessage() {
 
 String Sensor::getStateMessage() {
     String msg = "{";
+    msg += "\"type\":\"sensor\",";
     msg += "\"name\":\"" + name + "\",";
     msg += "\"state\":\"" + state + "\"";
     msg += "}";
