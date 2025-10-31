@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from app.util.database import SessionDep
 from app.schema.base import PageResponse, DefaultEdit
 import app.crud.rest as crud
-from app.schema.rest import RestActuatorResponse
+from app.schema.rest import RestActuatorResponse, RestActuatorUpdateRequest
 from pydantic import BaseModel
 
 router = APIRouter(
@@ -21,3 +21,7 @@ def get_pagination_actuators(device_code: str, session: SessionDep, page: int = 
 @router.put("/{actuator_id}")
 def update_actuator(device_code:str, actuator_id: int, request: DefaultEdit, session: SessionDep) -> RestActuatorResponse:
     return crud.update_actuator(db=session, actuator_id=actuator_id, device_code=device_code, request=request)
+
+@router.post("/{actuator_id}/action")
+def update_actuator_state(device_code:str, actuator_id: int, request: RestActuatorUpdateRequest, session: SessionDep):
+    return crud.update_actuator_state(db=session, actuator_id=actuator_id, device_code=device_code, request=request)

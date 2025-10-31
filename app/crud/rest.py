@@ -5,6 +5,7 @@ from app.schema.base import PageResponse, DefaultEdit
 import app.crud.dao.device as device_dao
 import app.crud.dao.actuator as actuator_dao
 import app.crud.dao.sensor as sensor_dao
+import app.crud.event.publisher as publisher
 
 
 def get_device_by_code(db: Session, device_code: str) -> RestDeviceResponse:
@@ -68,6 +69,10 @@ def update_actuator(db: Session, actuator_id: int, device_code: str, request: De
     actuator = actuator_dao.update_detail(db, actuator_id, request)
     return RestActuatorResponse.model_validate(actuator)
 
+def update_actuator_state(db: Session, actuator_id: int, device_code: str, request: RestActuatorUpdateRequest):
+    if not actuator_dao.exists_by_device_code_and_id(db, device_code, actuator_id):
+        raise HTTPException(status_code=404, detail="해당 액추에이터를 찾을 수 없습니다.")
+    publisher.send_actuator_action(device_code, actuator_id, request.state)
 
 def update_sensor(db: Session, sensor_id: int, device_code: str, request: DefaultEdit) -> RestSensorResponse:
     if not sensor_dao.exists_by_device_code_and_id(db, device_code, sensor_id):
