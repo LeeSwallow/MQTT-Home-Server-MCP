@@ -10,8 +10,8 @@ int TIMEOUT_PORTAL = 180; //seconds
 unsigned long previousMillis = 0;
 
 // AP credentials
-String WIFI_SSID = "Netis104_2G";
-String WIFI_PASSWORD = "aaaa1111";
+String WIFI_SSID = "ENTER_YOUR_WIFI_SSID";
+String WIFI_PASSWORD = "ENTER_YOUR_WIFI_PASSWORD";
 WiFiClient espClient;
 SmartHomeClient* smartHomeClient = nullptr;
 
