@@ -1,14 +1,17 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from contextlib import asynccontextmanager
-from app.router import device, actuator, sensor
+from app.router import device, actuator, sensor, template
 from app.util.database import init_db
 import paho.mqtt.client as mqtt
 from app.util.logging import logging
 from app.util.broker import mqttClient
 from app.crud.event.listener import on_register, on_update
-import os
+from fastapi.templating import Jinja2Templates
+
 
 logger = logging.getLogger(__name__)
 
@@ -52,15 +55,26 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+# Jinja2 템플릿 설정
+templates = Jinja2Templates(directory="app/templates")
+app.templates = templates  # type: ignore
+
+# 템플릿 라우터에 템플릿 인스턴스 설정
+template.set_templates(templates)
+
 app.include_router(device.router)
 app.include_router(actuator.router)
 app.include_router(sensor.router)
+app.include_router(template.router)
 
-# Static files
-STATIC_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
+# Template components JS files
+TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), "templates")
+STATIC_DIR = os.path.join(TEMPLATES_DIR, "static")
+
 if os.path.exists(STATIC_DIR):
-    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
-    
-    @app.get("/")
-    async def read_root():
-        return FileResponse(os.path.join(STATIC_DIR, "index.html"))
+    app.mount("/templates/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+# favicon.ico 파일 제공
+@app.get("/favicon.ico")
+async def read_favicon():
+    return FileResponse(os.path.join(STATIC_DIR, "favicon.ico"))

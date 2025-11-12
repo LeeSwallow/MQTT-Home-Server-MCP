@@ -1,0 +1,25 @@
+{% macro device_card(device) %}
+<div class="card h-100 device-card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="flex-grow-1">
+                <h5 class="card-title">
+                    <i class="bi bi-device-hdd"></i> {{ device.name or '이름 없음' }}
+                </h5>
+                <p class="mb-2">
+                    <code>{{ device.device_code }}</code>
+                </p>
+            </div>
+        </div>
+        <p class="card-text">
+            {{ device.description or '설명이 없습니다' }}
+        </p>
+    </div>
+    <div class="card-footer">
+        <a href="/device/{{ device.device_code }}" class="btn btn-primary w-100">
+            <i class="bi bi-arrow-right-circle me-2"></i> 상세 보기
+        </a>
+    </div>
+</div>
+{% endmacro %}
+

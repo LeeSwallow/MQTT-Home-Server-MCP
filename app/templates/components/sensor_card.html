@@ -1,0 +1,29 @@
+{% macro sensor_card(sensor) %}
+<div class="card h-100 sensor-card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="flex-grow-1">
+                <h5 class="card-title mb-1">{{ sensor.name }}</h5>
+                <p class="text-muted small mb-0">{{ sensor.description or '설명 없음' }}</p>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-sm btn-outline-secondary" onclick="openEditModal('sensor', {{ sensor.id }})" title="편집">
+                    <i class="bi bi-pencil"></i>
+                </button>
+                <span class="badge bg-secondary">ID: {{ sensor.id }}</span>
+            </div>
+        </div>
+        
+        <div class="sensor-info">
+            <div class="sensor-value">
+                <span class="state-label">현재 값</span>
+                <span class="sensor-reading" id="sensor-{{ sensor.id }}">{{ sensor.state or 0 }}</span>
+            </div>
+            <div class="sensor-range">
+                <span class="badge bg-info">타입: {{ sensor.sensor_type.value if sensor.sensor_type else 'N/A' }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+

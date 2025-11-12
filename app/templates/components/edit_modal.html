@@ -1,0 +1,28 @@
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark border-secondary">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title" id="editModalLabel">정보 수정</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="edit-form" onsubmit="handleEditSubmit(event)">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit-name" class="form-label">이름</label>
+                        <input type="text" class="form-control bg-dark text-light border-secondary" id="edit-name" name="name" placeholder="이름을 입력하세요">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-description" class="form-label">설명</label>
+                        <textarea class="form-control bg-dark text-light border-secondary" id="edit-description" name="description" rows="3" placeholder="설명을 입력하세요"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="submit" class="btn btn-primary">저장</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

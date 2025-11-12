@@ -1,0 +1,183 @@
+/* ============================================
+   Actuator Styles - 액추에이터 카드 및 컨트롤 스타일
+   ============================================ */
+
+/* 액추에이터 컨트롤 */
+.actuator-controls {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 상태 표시 */
+.actuator-controls .state-display {
+    background: rgba(15, 23, 42, 0.6);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    transition: all 0.3s;
+}
+
+.actuator-controls .state-display:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+    box-shadow: var(--glow-primary);
+}
+
+.actuator-controls .state-value {
+    font-family: 'Courier New', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+    transition: all 0.3s;
+}
+
+[id^="state-"] {
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+/* 슬라이더 컨테이너 */
+.actuator-controls .slider-container {
+    margin-bottom: 1.5rem;
+}
+
+.actuator-controls .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* 커스텀 슬라이더 */
+.actuator-controls .form-range {
+    cursor: pointer;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.actuator-controls .form-range:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.actuator-controls .form-range::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    border: 3px solid white;
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.6), var(--shadow-md);
+    transition: all 0.2s;
+    cursor: grab;
+}
+
+.actuator-controls .form-range::-webkit-slider-thumb:active {
+    cursor: grabbing;
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.7);
+}
+
+.actuator-controls .form-range::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 18px rgba(99, 102, 241, 0.6);
+}
+
+.actuator-controls .form-range::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    border: 3px solid white;
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.6), var(--shadow-md);
+    transition: all 0.2s;
+    cursor: grab;
+}
+
+.actuator-controls .form-range::-moz-range-thumb:active {
+    cursor: grabbing;
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.7);
+}
+
+.actuator-controls .form-range::-moz-range-thumb:hover {
+    box-shadow: 0 0 18px rgba(99, 102, 241, 0.6);
+}
+
+/* 버튼 그룹 */
+.actuator-controls .btn-group {
+    gap: 0.5rem;
+    display: flex;
+    width: 100%;
+}
+
+.actuator-controls .btn-group .btn {
+    flex: 1;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.actuator-controls .btn-group .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.actuator-controls .btn-group .btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.actuator-controls .btn-group .btn-danger:hover {
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6);
+}
+
+.actuator-controls .btn-group .btn-success:hover {
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+}
+
+.actuator-controls .btn-group .btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+}
+
+/* 액추에이터 카드 특별 스타일 */
+.actuator-card {
+    position: relative;
+}
+
+.actuator-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: 0 16px 16px 0;
+}
+
+.actuator-card:hover::after {
+    opacity: 1;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .actuator-controls .btn-group {
+        flex-direction: column;
+    }
+    
+    .actuator-controls .btn-group .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .actuator-controls .state-value {
+        font-size: 1.5rem;
+    }
+}
+
