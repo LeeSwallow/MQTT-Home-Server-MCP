@@ -67,6 +67,37 @@
     font-family: 'Courier New', monospace;
 }
 
+/* 기기 정보 카드 내부 텍스트 색상 개선 */
+.card-body .bg-secondary.bg-opacity-25 {
+    color: var(--text-primary) !important;
+}
+
+.card-body .bg-secondary.bg-opacity-25 .fw-bold {
+    color: var(--text-primary) !important;
+    font-weight: 700;
+}
+
+.card-body .bg-secondary.bg-opacity-25 small.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.card-body .bg-secondary.bg-opacity-25 code {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
+    color: var(--primary-light) !important;
+    padding: 0.35rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.5px;
+    display: inline-block;
+}
+
+.card-body .bg-secondary.bg-opacity-25 span:not(.fw-bold) {
+    color: var(--text-secondary) !important;
+}
+
 /* 기기 목록 페이지 헤더 */
 .device-list-header {
     margin-bottom: 2rem;
