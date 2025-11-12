@@ -35,19 +35,19 @@ async def put_request(path: str, data: dict) -> dict:
     return response.json()
 
 # Convenience API wrappers
-async def api_get_actuators() -> list[dict]:
+async def api_get_actuators():
     return await get_request(f"/api/v1/devices/{DEVICE_ID}/actuators/")
 
-async def api_get_actuator(actuator_id: int) -> dict:
+async def api_get_actuator(actuator_id: int):
     return await get_request(f"/api/v1/devices/{DEVICE_ID}/actuators/{actuator_id}")
 
-async def api_get_sensors() -> list[dict]:
+async def api_get_sensors():
     return await get_request(f"/api/v1/devices/{DEVICE_ID}/sensors/")
 
-async def api_get_sensor(sensor_id: int) -> dict:
+async def api_get_sensor(sensor_id: int):
     return await get_request(f"/api/v1/devices/{DEVICE_ID}/sensors/{sensor_id}")
 
-async def api_update_actuator_state(actuator_id: int, state: int) -> dict:
+async def api_update_actuator_state(actuator_id: int, state: int):
     payload = {"state": state}
     return await post_request(f"/api/v1/devices/{DEVICE_ID}/actuators/{actuator_id}/action", payload)
 
